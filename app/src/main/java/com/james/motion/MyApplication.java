@@ -7,10 +7,14 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.RemoteException;
+import android.util.Log;
 
 import androidx.multidex.MultiDexApplication;
 
+import com.amap.api.maps.MapsInitializer;
 import com.blankj.utilcode.util.Utils;
+import com.james.motion.commmon.utils.KeyUtil;
 import com.james.motion.commmon.utils.LogUtils;
 import com.squareup.leakcanary.LeakCanary;
 
@@ -67,6 +71,14 @@ public class MyApplication extends MultiDexApplication {
 
         //在子线程中完成其他初始化
         initApplication();
+
+        try {
+            MapsInitializer.updatePrivacyShow(applicationContext, true, true);
+            MapsInitializer.updatePrivacyAgree(applicationContext, true);
+            MapsInitializer.initialize(applicationContext);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initApplication() {
@@ -78,11 +90,14 @@ public class MyApplication extends MultiDexApplication {
 
         Utils.init(getInstance());
 
+
+        String sha1 = KeyUtil.getSHA1(applicationContext);
+        Log.e("sha1","sha -|> " + sha1);
         //内存泄漏检测放到最后执行
-        if (LeakCanary.isInAnalyzerProcess(getInstance())) {
-            return;
-        }
-        LeakCanary.install(getInstance());
+//        if (LeakCanary.isInAnalyzerProcess(getInstance())) {
+//            return;
+//        }
+//        LeakCanary.install(getInstance());
 //        });
     }
 

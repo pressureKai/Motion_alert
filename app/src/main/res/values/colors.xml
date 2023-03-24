@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#40c632</color>
+    <color name="colorPrimary">#132B5A</color>
+    <color name="colorPrimaryDark">#132B5A</color>
+    <color name="colorAccent">#132B5A</color>
 
     <!--主色调-->
-    <color name="basecolor">#49B557</color>
-    <color name="basecolorShallow">#57df48</color>
-    <color name="basecolorDeep">#40c632</color>
+    <color name="basecolor">#132B5A</color>
+    <color name="basecolorShallow">#132B5A</color>
+    <color name="basecolorDeep">#132B5A</color>
 
     <!--字体、背景-->
     <color name="layout_bg">#f8f9fa</color>
@@ -29,10 +29,10 @@
     <color name="divider_color">#ffe8e8e8</color>
     <color name="transparent">#00000000</color>
 
-    <color name="green0">#45C01A</color>
-    <color name="green1">#45C01A</color>
-    <color name="green2">#A3DEA3</color>
-    <color name="green3">#1AAD19</color>
+    <color name="green0">#132B5A</color>
+    <color name="green1">#132B5A</color>
+    <color name="green2">#132B5A</color>
+    <color name="green3">#132B5A</color>
 
     <color name="gray_n">#D4D4D4</color>
     <color name="gray0">#464646</color>
@@ -46,11 +46,35 @@
     <color name="gray8">#D9D9D9</color>
     <color name="gray9">#DBDFE0</color>
     <color name="gray10">#ffbebebe</color>
+    <color name="colorRed">#10ded7</color>
+    <color name="sport_bg">#132B5A</color>
+    <color name="center_sport_bg">#132B5A</color>
+    <color name="end_sport_bg">#1A132B5A</color>
 
-    <color name="sport_bg">#0ba78c</color>
-    <color name="center_sport_bg">#550ba78c</color>
-    <color name="end_sport_bg">#280ba78c</color>
+    <color name="btn_green_p">#132B5A</color>
+    <color name="btn_green_n">#132B5A</color>
 
-    <color name="btn_green_p">#49B557</color>
-    <color name="btn_green_n">#01BF71</color>
+
+    <color name="blue">#2196F3</color>
+
+
+
+
+
+
+    <color name="green">#00ff00</color>
+    <color name="yellow">#ffff00</color>
+    <color name="teal">#00796B</color>
+    <color name="brown">#8D6E63</color>
+    <color name="grey">#666666</color>
+    <color name="greylight">#AAAAAA</color>
+    <color name="orange">#F57C00</color>
+    <color name="sleep">#0e1634</color>
+    <color name="analysis">#0e1634</color>
+    <color name="diary">#2196F3</color>
+    <color name="music">#0e1634</color>
+    <color name="none">#00FFFFFF</color>
+    <color name="cyan">#00b7a8</color>
+    <color name="darkBlue">#0e1634</color>
+    <color name="greyglass">#CCFFFFFF</color>
 </resources>

@@ -213,7 +213,11 @@ public class SportRecordDetailsMapFragment extends BaseFragment {
         public void activate(OnLocationChangedListener onLocationChangedListener) {
             mListener = onLocationChangedListener;
             if (mlocationClient == null) {
-                mlocationClient = new AMapLocationClient(getActivity());
+                try {
+                    mlocationClient = new AMapLocationClient(getActivity());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 mLocationOption = new AMapLocationClientOption();
                 //设置定位监听
                 mlocationClient.setLocationListener(MyAMapLocationListener);
@@ -259,7 +263,7 @@ public class SportRecordDetailsMapFragment extends BaseFragment {
                         mlocationClient.onDestroy();
                     }
                 } else {
-                    String errText = "定位失败," + aMapLocation.getErrorCode() + ": " + aMapLocation.getErrorInfo();
+                    String errText = "定位失败," + aMapLocation.getErrorCode() + ": " + aMapLocation.getErrorInfo() + " \n " + aMapLocation.getLocationDetail();
                     LogUtils.e("定位失败  AmapErr", errText);
                 }
             }

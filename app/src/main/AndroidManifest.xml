@@ -40,7 +40,10 @@
     <!--用于申请获取蓝牙信息进行室内定位-->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-feature android:name="android.hardware.camera" android:required="true"/>
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false"/>
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -124,13 +127,17 @@
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".ui.activity.MainActivity" />
+        <activity android:name=".ui.heart.main.HeartMainActivity" />
+        <activity android:name=".ui.sleep.SleepMainActivity" />
+        <activity android:name=".ui.sleep.Fragments.Diary_edit" />
 
         <!--高德定位服务-->
         <service android:name="com.amap.api.location.APSService" />
         <!--开发者申请的key-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="7b175196c075543e296831feeeb1eacc" />
+            android:value="d015576946a5ace92c1ce1c0bd29c3b8" />
 
         <!--计步定位服务-->
         <service
@@ -142,6 +149,34 @@
                 <action android:name="com.james.motion.sport_motion.LocationService" />
             </intent-filter>
         </service>
+
+
+        <receiver android:name=".ui.sleep.Receiver.AlarmReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".ui.sleep.Receiver.MyReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".ui.sleep.Fragments.MusicService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver android:name=".ui.sleep.Receiver.MusicWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.apm.sleepmon.changeWidget" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/music_widget_info" />
+        </receiver>
 
     </application>
 

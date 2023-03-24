@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <com.james.motion.widget.CameraPreviewView
+            android:id="@+id/camerapreviewview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <!--<ImageView-->
+            <!--android:id="@+id/iv_imageview"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@color/colorTransparent"-->
+            <!--android:src="@drawable/ic_wait"-->
+            <!--/>-->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:elevation="2dp"
+            android:background="@color/colorRed">
+            <com.james.motion.widget.CardiogView
+                android:id="@+id/cardiogview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:distanceX="8dp"
+                app:startY="50"
+                app:endY="200"
+                />
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:elevation="2dp"
+                >
+                <TextView
+                    android:id="@+id/tv_heartrate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="心率: 还没测出来   Σ( ° △ °|||)︴"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    />
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        app:fabSize="normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_update_black_24dp"
+        android:scaleType="centerInside"
+        app:borderWidth="0dp"
+       android:layout_margin="10dp"
+        android:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        android:onClick="startMeasure"
+        />
+
+</RelativeLayout>

@@ -61,7 +61,7 @@ import butterknife.OnClick;
  * 日期: 2019/2/27 14:58
  * 类名: SportMapActivity
  */
-public class SportMapActivity extends BaseActivity {
+public class SportMapActivity extends BaseActivity implements View.OnClickListener {
 
     @BindView(R.id.sport_content)
     RelativeLayout sportContent;
@@ -167,169 +167,8 @@ public class SportMapActivity extends BaseActivity {
 //    }
             ;
 
-    private class MyRunnable implements Runnable {
-        @Override
-        public void run() {
-            cmPasstime.setText(formatseconds());
-            mHandler.postDelayed(this, 1000);
-        }
-    }
-
-    private MyRunnable mRunnable = null;
-
     @Override
-    public int getLayoutId() {
-        return R.layout.activity_sportmap;
-    }
-
-    @Override
-    public void initData(Bundle savedInstanceState) {
-
-        mapView.onCreate(savedInstanceState);// 此方法必须重写
-
-        record = new PathRecord();
-
-        dataManager = new DataManager(new RealmHelper());
-
-        //显示倒计时
-        CountTimerUtil.start(tvNumberAnim, new CountTimerUtil.AnimationState() {
-            @Override
-            public void start() {
-
-            }
-
-            @Override
-            public void repeat() {
-
-            }
-
-            @Override
-            public void end() {
-                flCountTimer.setVisibility(View.GONE);
-                hiddenAnim1.start();
-//                apperaAnim2.start_bg();
-                hiddenAnim3.start();
-
-                ISSTARTUP = true;
-
-                seconds = 0;
-                cmPasstime.setBase(SystemClock.elapsedRealtime());
-
-                mStartTime = System.currentTimeMillis();
-                if (record == null)
-                    record = new PathRecord();
-                record.setStartTime(mStartTime);
-
-                if (mRunnable == null)
-                    mRunnable = new MyRunnable();
-                mHandler.postDelayed(mRunnable, 0);
-
-                startUpLocation();
-
-            }
-        });
-
-        if (aMap == null) {
-            aMap = mapView.getMap();
-            setUpMap();
-        }
-
-        initPolyline();
-
-        setMode();
-    }
-
-    private void initPolyline() {
-        polylineOptions = new PolylineOptions();
-        polylineOptions.color(getResources().getColor(R.color.colorAccent));
-        polylineOptions.width(20f);
-        polylineOptions.useGradient(true);
-
-        mpathSmoothTool = new PathSmoothTool();
-        mpathSmoothTool.setIntensity(4);
-    }
-
-    private void startUpLocation() {
-        //绑定服务
-//        isBind = bindService(new Intent(this, LocationService.class), mConnection, Service.BIND_AUTO_CREATE);
-
-        //屏幕保持常亮
-        if (null != mapView)
-            sportContent.setKeepScreenOn(true);
-
-        startLocation();
-    }
-
-    private void unBindService() {
-        //解除绑定服务
-//        if (isBind && null != mService) {
-//            unbindService(mConnection);
-//            isBind = false;
-//        }
-//        mService = null;
-
-        //屏幕取消常亮
-        if (null != mapView)
-            sportContent.setKeepScreenOn(false);
-
-        //停止定位
-        if (null != mLocationClient) {
-            mLocationClient.stopLocation();
-            mLocationClient.unRegisterLocationListener(aMapLocationListener);
-            mLocationClient.onDestroy();
-            mLocationClient = null;
-        }
-    }
-
-    private void setMode() {
-        if (mode) {
-            tvMode.setText("地图模式");
-            UIHelper.setLeftDrawable(tvMode, R.mipmap.map_mode);
-            rlMap.setVisibility(View.GONE);
-        } else {
-            tvMode.setText("跑步模式");
-            UIHelper.setLeftDrawable(tvMode, R.mipmap.run_mode);
-            rlMap.setVisibility(View.VISIBLE);
-        }
-        mode = !mode;
-    }
-
-    /**
-     * 开始定位。
-     */
-    private void startLocation() {
-        if (mLocationClient == null) {
-            mLocationClient = new AMapLocationClient(this);
-            //设置定位属性
-            mLocationOption = new AMapLocationClientOption();
-            mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
-            mLocationOption.setGpsFirst(false);//可选，设置是否gps优先，只在高精度模式下有效。默认关闭
-            mLocationOption.setHttpTimeOut(30000);//可选，设置网络请求超时时间。默认为30秒。在仅设备模式下无效
-            mLocationOption.setInterval(interval);//可选，设置定位间隔。默认为2秒
-            mLocationOption.setNeedAddress(false);//可选，设置是否返回逆地理地址信息。默认是true
-            mLocationOption.setOnceLocation(false);//可选，设置是否单次定位。默认是false
-            mLocationOption.setOnceLocationLatest(false);//可选，设置是否等待wifi刷新，默认为false.如果设置为true,会自动变为单次定位，持续定位时不要使用
-            AMapLocationClientOption.setLocationProtocol(AMapLocationClientOption.AMapLocationProtocol.HTTP);//可选， 设置网络请求的协议。可选HTTP或者HTTPS。默认为HTTP
-            mLocationOption.setSensorEnable(false);//可选，设置是否使用传感器。默认是false
-            mLocationOption.setWifiScan(true); //可选，设置是否开启wifi扫描。默认为true，如果设置为false会同时停止主动刷新，停止以后完全依赖于系统刷新，定位位置可能存在误差
-            mLocationOption.setLocationCacheEnable(true); //可选，设置是否使用缓存定位，默认为true
-            mLocationOption.setGeoLanguage(AMapLocationClientOption.GeoLanguage.ZH);//可选，设置逆地理信息的语言，默认值为默认语言（根据所在地区选择语言）
-            mLocationClient.setLocationOption(mLocationOption);
-
-            // 设置定位监听
-            mLocationClient.setLocationListener(aMapLocationListener);
-            //开始定位
-            mLocationClient.startLocation();
-        }
-    }
-
-    @Override
-    public void initListener() {
-//        cmPasstime.setOnChronometerTickListener(chronometer -> cmPasstime.setText(formatseconds()));
-    }
-
-    @OnClick({R.id.tv_mode, R.id.tv1, R.id.tv2, R.id.tv3})
-    public void onViewClicked(View view) {
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_mode:
                 setMode();
@@ -379,7 +218,11 @@ public class SportMapActivity extends BaseActivity {
                     mRunnable = new MyRunnable();
                 mHandler.postDelayed(mRunnable, 0);
 
-                startUpLocation();
+                try {
+                    startUpLocation();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 hiddenAnim1.start();
                 apperaAnim2.start();
@@ -388,6 +231,172 @@ public class SportMapActivity extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    private class MyRunnable implements Runnable {
+        @Override
+        public void run() {
+            cmPasstime.setText(formatseconds());
+            mHandler.postDelayed(this, 1000);
+        }
+    }
+
+    private MyRunnable mRunnable = null;
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_sportmap;
+    }
+
+    @Override
+    public void initData(Bundle savedInstanceState) {
+
+        mapView.onCreate(savedInstanceState);// 此方法必须重写
+
+        record = new PathRecord();
+
+        dataManager = new DataManager(new RealmHelper());
+
+        //显示倒计时
+        CountTimerUtil.start(tvNumberAnim, new CountTimerUtil.AnimationState() {
+            @Override
+            public void start() {
+
+            }
+
+            @Override
+            public void repeat() {
+
+            }
+
+            @Override
+            public void end() throws Exception {
+                flCountTimer.setVisibility(View.GONE);
+                hiddenAnim1.start();
+//                apperaAnim2.start_bg();
+                hiddenAnim3.start();
+
+                ISSTARTUP = true;
+
+                seconds = 0;
+                cmPasstime.setBase(SystemClock.elapsedRealtime());
+
+                mStartTime = System.currentTimeMillis();
+                if (record == null)
+                    record = new PathRecord();
+                record.setStartTime(mStartTime);
+
+                if (mRunnable == null)
+                    mRunnable = new MyRunnable();
+                mHandler.postDelayed(mRunnable, 0);
+
+                startUpLocation();
+
+            }
+        });
+
+        if (aMap == null) {
+            aMap = mapView.getMap();
+            setUpMap();
+        }
+
+        initPolyline();
+
+        tvMode.setOnClickListener(this);
+        tv1.setOnClickListener(this);
+        tv2.setOnClickListener(this);
+        tv3.setOnClickListener(this);
+
+        setMode();
+    }
+
+    private void initPolyline() {
+        polylineOptions = new PolylineOptions();
+        polylineOptions.color(getResources().getColor(R.color.colorAccent));
+        polylineOptions.width(20f);
+        polylineOptions.useGradient(true);
+
+        mpathSmoothTool = new PathSmoothTool();
+        mpathSmoothTool.setIntensity(4);
+    }
+
+    private void startUpLocation() throws Exception {
+        //绑定服务
+//        isBind = bindService(new Intent(this, LocationService.class), mConnection, Service.BIND_AUTO_CREATE);
+
+        //屏幕保持常亮
+        if (null != mapView)
+            sportContent.setKeepScreenOn(true);
+
+        startLocation();
+    }
+
+    private void unBindService() {
+        //解除绑定服务
+//        if (isBind && null != mService) {
+//            unbindService(mConnection);
+//            isBind = false;
+//        }
+//        mService = null;
+
+        //屏幕取消常亮
+        if (null != mapView)
+            sportContent.setKeepScreenOn(false);
+
+        //停止定位
+        if (null != mLocationClient) {
+            mLocationClient.stopLocation();
+            mLocationClient.unRegisterLocationListener(aMapLocationListener);
+            mLocationClient.onDestroy();
+            mLocationClient = null;
+        }
+    }
+
+    private void setMode() {
+        if (mode) {
+            tvMode.setText("地图模式");
+            UIHelper.setLeftDrawable(tvMode, R.mipmap.map_mode);
+            rlMap.setVisibility(View.GONE);
+        } else {
+            tvMode.setText("跑步模式");
+            UIHelper.setLeftDrawable(tvMode, R.mipmap.run_mode);
+            rlMap.setVisibility(View.VISIBLE);
+        }
+        mode = !mode;
+    }
+
+    /**
+     * 开始定位。
+     */
+    private void startLocation() throws Exception {
+        if (mLocationClient == null) {
+            mLocationClient = new AMapLocationClient(this);
+            //设置定位属性
+            mLocationOption = new AMapLocationClientOption();
+            mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
+            mLocationOption.setGpsFirst(false);//可选，设置是否gps优先，只在高精度模式下有效。默认关闭
+            mLocationOption.setHttpTimeOut(30000);//可选，设置网络请求超时时间。默认为30秒。在仅设备模式下无效
+            mLocationOption.setInterval(interval);//可选，设置定位间隔。默认为2秒
+            mLocationOption.setNeedAddress(false);//可选，设置是否返回逆地理地址信息。默认是true
+            mLocationOption.setOnceLocation(false);//可选，设置是否单次定位。默认是false
+            mLocationOption.setOnceLocationLatest(false);//可选，设置是否等待wifi刷新，默认为false.如果设置为true,会自动变为单次定位，持续定位时不要使用
+            AMapLocationClientOption.setLocationProtocol(AMapLocationClientOption.AMapLocationProtocol.HTTP);//可选， 设置网络请求的协议。可选HTTP或者HTTPS。默认为HTTP
+            mLocationOption.setSensorEnable(false);//可选，设置是否使用传感器。默认是false
+            mLocationOption.setWifiScan(true); //可选，设置是否开启wifi扫描。默认为true，如果设置为false会同时停止主动刷新，停止以后完全依赖于系统刷新，定位位置可能存在误差
+            mLocationOption.setLocationCacheEnable(true); //可选，设置是否使用缓存定位，默认为true
+            mLocationOption.setGeoLanguage(AMapLocationClientOption.GeoLanguage.ZH);//可选，设置逆地理信息的语言，默认值为默认语言（根据所在地区选择语言）
+            mLocationClient.setLocationOption(mLocationOption);
+
+            // 设置定位监听
+            mLocationClient.setLocationListener(aMapLocationListener);
+            //开始定位
+            mLocationClient.startLocation();
+        }
+    }
+
+    @Override
+    public void initListener() {
+//        cmPasstime.setOnChronometerTickListener(chronometer -> cmPasstime.setText(formatseconds()));
     }
 
     private void saveRecord() {
@@ -474,7 +483,11 @@ public class SportMapActivity extends BaseActivity {
         @Override
         public void activate(OnLocationChangedListener onLocationChangedListener) {
             mListener = onLocationChangedListener;
-            startLocation();
+            try {
+                startLocation();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
@@ -505,8 +518,8 @@ public class SportMapActivity extends BaseActivity {
             updateLocation(aMapLocation);
 
         } else {
-            String errText = "定位失败," + aMapLocation.getErrorCode() + ": " + aMapLocation.getErrorInfo();
-            LogUtils.e("AmapErr", errText);
+            String errText = "定位失败," + aMapLocation.getErrorCode() + ": " + aMapLocation.getErrorInfo() + " \n " + aMapLocation.getLocationDetail();
+            LogUtils.e("定位失败  AmapErr", errText);
         }
     };
 

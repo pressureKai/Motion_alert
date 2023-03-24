@@ -64,7 +64,11 @@ public class CountTimerUtil {
             public void onAnimationEnd(Animation animation) {
                 // 动画结束时，隐藏
                 animationViewTv.setVisibility(View.GONE);
-                animationState.end();
+                try {
+                    animationState.end();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -91,6 +95,6 @@ public class CountTimerUtil {
 
         void repeat();
 
-        void end();
+        void end() throws Exception;
     }
 }

@@ -51,7 +51,11 @@ public class LocationService extends Service {
         super.onCreate();
 
         //声明LocationClient类
-        mLocationClient = new AMapLocationClient(this);
+        try {
+            mLocationClient = new AMapLocationClient(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //给定位类加入自定义的配置
         initLocationOption();
         //注册监听函数
@@ -102,8 +106,8 @@ public class LocationService extends Service {
                 interfaceLocationed.locationed(aMapLocation);
 
         } else {
-            String errText = "定位失败," + aMapLocation.getErrorCode() + ": " + aMapLocation.getErrorInfo();
-            LogUtils.e("AmapErr", errText);
+            String errText = "定位失败," + aMapLocation.getErrorCode() + ": " + aMapLocation.getErrorInfo() + " \n " + aMapLocation.getLocationDetail();
+            LogUtils.e("定位失败  AmapErr", errText);
         }
     };
 

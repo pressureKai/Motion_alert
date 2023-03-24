@@ -20,6 +20,7 @@
             android:paddingTop="@dimen/spacing_normal">
 
             <com.flyco.tablayout.SlidingTabLayout
+                android:visibility="invisible"
                 android:id="@+id/slidingTabLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/item_height"
@@ -36,11 +37,13 @@
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/vp"
+            android:layout_margin="32dp"
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:overScrollMode="never" />
 
         <Button
+            android:layout_marginHorizontal="64dp"
             android:id="@+id/btLogin"
             style="@style/Commit_Button_Style"
             android:layout_marginBottom="0dp"
@@ -48,6 +51,7 @@
             android:text="登录" />
 
         <Button
+            android:layout_marginHorizontal="64dp"
             android:id="@+id/btReg"
             style="@style/Commit_Button_Style"
             android:layout_marginBottom="40dp"
@@ -57,6 +61,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="invisible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"

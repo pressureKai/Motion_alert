@@ -62,7 +62,7 @@ public class LoginActivity extends BaseActivity {
     //上次点击返回键的时间
     public static final int QUIT_INTERVAL = 2500;
 
-    private final String[] mTitles = {"普通登录", "快速登录"};
+    private final String[] mTitles = {"普通登录"};
 
     private ArrayList<Fragment> mFragments = new ArrayList<>();
 
@@ -87,7 +87,6 @@ public class LoginActivity extends BaseActivity {
         vp.setAdapter(mAdapter);
 
         mFragments.add(psdLoginFragment);
-        mFragments.add(fastLoginFragment);
 
         slidingTabLayout.setViewPager(vp, mTitles, this, mFragments);
 
@@ -172,7 +171,7 @@ public class LoginActivity extends BaseActivity {
         SPUtils.getInstance().put(MySp.PHONE, account);
         SPUtils.getInstance().put(MySp.PASSWORD, psd);
 
-        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
         ToastUtils.showShort("恭喜您,登录成功...");
 
         finish();

@@ -93,8 +93,10 @@ dependencies {
     implementation rootProject.ext.dependencies["Map_3D"]
     //搜索功能
     implementation rootProject.ext.dependencies["Map_search"]
-    //定位SDK
-    implementation rootProject.ext.dependencies["Map_location"]
+
+    implementation 'com.anthonycr.grant:permissions:1.0'
+
+    implementation 'com.ashokvarma.android:bottom-navigation-bar:1.3.1'
 
     // 内存泄漏检测
     debugImplementation rootProject.ext.dependencies["leakcanary_debug"]

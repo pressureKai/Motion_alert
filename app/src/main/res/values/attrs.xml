@@ -15,4 +15,12 @@
         <attr name="ProgressText_color" format="color" />
 
     </declare-styleable>
+
+
+    <declare-styleable name="CardiogView">
+        <attr name="distanceX" format="dimension|reference"/>
+        <attr name="linecolor" format="color|reference"/>
+        <attr name="startY" format="float"/>
+        <attr name="endY" format="float"/>
+    </declare-styleable>
 </resources>

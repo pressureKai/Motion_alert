@@ -249,9 +249,10 @@ public class HomeActivity extends BaseActivity {
                 startActivityForResult(new Intent(HomeActivity.this, SportsActivity.class), SPORT);
                 break;
             case R.id.reBack:
-                showTipDialog("退出登录",
-                        "退出登录后将会删除历史数据,\n下次登录依然可以使用本账号!",
-                        () -> logOut());
+                finish();
+//                showTipDialog("退出登录",
+//                        "退出登录后将会删除历史数据,\n下次登录依然可以使用本账号!",
+//                        () -> logOut());
                 break;
             default:
                 break;
