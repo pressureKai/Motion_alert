@@ -44,6 +44,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/white"
                     android:layout_alignParentBottom="true"
                     android:orientation="horizontal"
                     android:padding="@dimen/margin_edge_20">
@@ -60,7 +61,7 @@
                             android:ellipsize="end"
                             android:maxLength="6"
                             android:text="0"
-                            android:textColor="@color/text_color_white"
+                            android:textColor="@color/text_color_black"
                             android:textSize="30sp"
                             android:textStyle="bold" />
 
@@ -70,7 +71,7 @@
                             android:layout_below="@+id/tv_sport_count"
                             android:layout_centerHorizontal="true"
                             android:text="总次数"
-                            android:textColor="@color/text_color_white"
+                            android:textColor="@color/text_color_black"
                             android:textSize="@dimen/textsize_3" />
                     </RelativeLayout>
 
@@ -87,7 +88,7 @@
                             android:ellipsize="end"
                             android:maxLength="6"
                             android:text="0"
-                            android:textColor="@color/text_color_white"
+                            android:textColor="@color/text_color_black"
                             android:textSize="30sp"
                             android:textStyle="bold" />
 
@@ -97,17 +98,35 @@
                             android:layout_below="@+id/tv_sport_time"
                             android:layout_centerHorizontal="true"
                             android:text="总时长(分钟)"
-                            android:textColor="@color/text_color_white"
+                            android:textColor="@color/text_color_black"
                             android:textSize="@dimen/textsize_3" />
                     </RelativeLayout>
                 </LinearLayout>
             </RelativeLayout>
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <Button
+                android:layout_gravity="center"
+                android:id="@+id/btStart"
+                style="@style/Circle_Commit_Button_Style"
+                android:text="开始跑步" />
+
+
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_edge_20"
-                android:background="@color/gray"
+                android:background="@color/white"
                 android:orientation="vertical"
                 android:padding="@dimen/margin_edge">
 
@@ -140,12 +159,6 @@
                     android:textSize="@dimen/textsize_2" />
 
             </LinearLayout>
-
-            <Button
-                android:id="@+id/btStart"
-                style="@style/Commit_Button_Style"
-                android:text="开始跑步" />
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -154,8 +167,9 @@
         android:layout_height="@dimen/title_height"
         android:layout_marginTop="@dimen/spacing_normal">
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/re_back"
+            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:onClick="back">
@@ -167,7 +181,23 @@
                 android:layout_marginLeft="@dimen/item_edge"
                 android:layout_marginRight="@dimen/item_edge"
                 android:background="@mipmap/icon_back_white" />
-        </RelativeLayout>
+
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/item_edge"
+                android:layout_marginRight="@dimen/item_edge"
+                android:background="@mipmap/icon_back_white" />
+        </LinearLayout>
 
     </RelativeLayout>
 </RelativeLayout>

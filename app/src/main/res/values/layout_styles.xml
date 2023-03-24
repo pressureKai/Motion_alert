@@ -28,6 +28,20 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="Circle_Commit_Button_Style" parent="@style/Widget.AppCompat.Button.Borderless">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">100dp</item>
+        <item name="android:layout_marginLeft">@dimen/margin_edge_20</item>
+        <item name="android:layout_marginRight">@dimen/margin_edge_20</item>
+        <item name="android:layout_marginTop">32dp</item>
+        <item name="android:layout_marginBottom">32dp</item>
+        <item name="android:background">@drawable/btn_nor_bg_circle</item>
+        <item name="android:button">@null</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/textsize_8</item>
+        <item name="android:gravity">center</item>
+    </style>
+
     <!--提交按钮-->
     <style name="Commit_Hide_Button_Style" parent="@style/Widget.AppCompat.Button.Borderless">
         <item name="android:layout_width">match_parent</item>

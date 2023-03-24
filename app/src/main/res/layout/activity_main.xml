@@ -17,6 +17,11 @@
         android:layout_height="100dp">
 
 
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_gravity="center"
+            android:layout_height="80dp"
+            android:src="@drawable/icon_run"/>
 
     </androidx.cardview.widget.CardView>
 
@@ -31,6 +36,11 @@
 
 
 
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_gravity="center"
+            android:layout_height="80dp"
+            android:src="@drawable/icon_heart"/>
 
     </androidx.cardview.widget.CardView>
 
@@ -41,7 +51,11 @@
         android:layout_margin="16dp"
         android:layout_height="100dp">
 
-
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_gravity="center"
+            android:layout_height="80dp"
+            android:src="@drawable/icon_sleep"/>
 
     </androidx.cardview.widget.CardView>
 
