@@ -5,12 +5,6 @@ import com.james.motion.R;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * 描述: 时间格式工具类
- * 作者: james
- * 日期: 2019/2/27 14:34
- * 类名: DateUtils
- */
 public class DateUtils {
 
     /**

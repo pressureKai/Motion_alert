@@ -22,12 +22,7 @@ import com.james.motion.ui.weight.CountDownProgressView;
 
 import butterknife.BindView;
 
-/**
- * 描述: 闪屏界面
- * 作者: james
- * 日期: 2019/2/25 16:20
- * 类名: SplashActivity
- */
+
 public class SplashActivity extends BaseActivity {
 
     @BindView(R.id.im_url)

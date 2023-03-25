@@ -2,20 +2,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_main"
+    android:background="@drawable/sport_change_bg"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/imageView">
+        android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/shadow"
-            android:layout_margin="25dp"
-            android:layout_centerInParent="true">
+            android:layout_centerInParent="true"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="25dp"
+            android:orientation="vertical">
+
             <LinearLayout
                 android:id="@+id/jishi"
                 android:layout_width="wrap_content"
@@ -87,6 +90,7 @@
                     android:textSize="@dimen/sp15" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/top"
                 android:layout_width="wrap_content"
@@ -97,7 +101,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="我会在"
+                    android:text="您会在"
                     android:textColor="#ffffff"
                     android:textSize="30dp" />
 
@@ -112,17 +116,17 @@
                         android:id="@+id/timeBtn"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/shape2"
                         android:text="00：00"
                         android:textColor="#ffffff"
-                        android:background="@drawable/shape2"
                         android:textSize="26sp" />
 
                     <Button
                         android:id="@+id/cancelAlarmBtn"
                         android:layout_width="fill_parent"
                         android:layout_height="45dp"
-                        android:visibility="gone"
-                        android:text="取消闹钟" />
+                        android:text="取消闹钟"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <TextView
@@ -134,42 +138,35 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/start"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:gravity="center"
-                android:textSize="17sp"
-                android:textColor="@color/blue"
-                android:background="@drawable/shape"
-                android:id="@+id/start"
                 android:layout_gravity="center"
-                android:text="开始睡眠"
-                android:visibility="visible"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/shape"
                 android:elevation="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="30dp" />
+                android:gravity="center"
+                android:text="开始睡眠"
+                android:textColor="@color/blue"
+                android:textSize="17sp"
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/reset"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_gravity="center"
-                android:textSize="17sp"
-                android:textColor="@color/blue"
-                android:background="@drawable/shape"
-                android:text="睡眠结束"
-                android:visibility="gone"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/shape"
                 android:elevation="10dp"
-                android:layout_marginBottom="30dp" />
+                android:text="睡眠结束"
+                android:textColor="@color/blue"
+                android:textSize="17sp"
+                android:visibility="gone" />
         </LinearLayout>
     </RelativeLayout>
 
-    <ImageView
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_centerInParent="true"
-        android:layout_alignParentBottom="true"
-        android:src="@drawable/image1"
-        android:id="@+id/imageView" />
 
 </RelativeLayout>

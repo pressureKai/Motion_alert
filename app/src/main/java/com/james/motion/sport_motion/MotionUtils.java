@@ -7,12 +7,6 @@ import com.amap.api.trace.TraceLocation;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 描述: 运动轨迹工具
- * 作者: james
- * 日期: 2019/2/27 14:22
- * 类名: MotionUtils
- */
 public class MotionUtils {
 
 

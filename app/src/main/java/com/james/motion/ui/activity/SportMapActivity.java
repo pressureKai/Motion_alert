@@ -34,7 +34,10 @@ import com.amap.api.maps.model.Polyline;
 import com.amap.api.maps.model.PolylineOptions;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.google.gson.Gson;
 import com.james.motion.R;
+import com.james.motion.commmon.bean.HealthRecord;
+import com.james.motion.commmon.bean.NetRecoderBean;
 import com.james.motion.commmon.bean.PathRecord;
 import com.james.motion.commmon.bean.SportMotionRecord;
 import com.james.motion.commmon.utils.CountTimerUtil;
@@ -47,6 +50,10 @@ import com.james.motion.db.RealmHelper;
 import com.james.motion.sport_motion.MotionUtils;
 import com.james.motion.sport_motion.PathSmoothTool;
 import com.james.motion.ui.BaseActivity;
+import com.james.motion.ui.adapter.HealthAdapter;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -54,6 +61,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * 描述: 运动界面
@@ -427,18 +440,8 @@ public class SportMapActivity extends BaseActivity implements View.OnClickListen
             sportMotionRecord.setDistribution(record.getDistribution());
             sportMotionRecord.setDateTag(DateUtils.getStringDateShort(mEndTime));
 
-//                record.setId(sportMotionRecord.getId());
-//                record.setDistance(sportMotionRecord.getDistance());
-//                record.setDuration(sportMotionRecord.getDuration());
-//                record.setStartTime(sportMotionRecord.getMStartTime());
-//                record.setEndTime(sportMotionRecord.getMEndTime());
-//                record.setStartpoint(firstLocaiton);
-//                record.setEndpoint(lastLocaiton);
-//                record.setCalorie(sportMotionRecord.getCalorie());
-//                record.setSpeed(sportMotionRecord.getSpeed());
-//                record.setDistribution(sportMotionRecord.getDistribution());
-//                record.setDateTag(sportMotionRecord.getDateTag());
 
+            sendRequestWithOkHttp();
             dataManager.insertSportRecord(sportMotionRecord);
         } catch (Exception e) {
             LogUtils.e("保存运动数据失败", e);
@@ -453,6 +456,60 @@ public class SportMapActivity extends BaseActivity implements View.OnClickListen
             finish();
         }, 1500);
 
+    }
+
+    public void sendRequestWithOkHttp() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String loginname = SPUtils.getInstance().getString(MySp.PHONE);
+                    OkHttpClient client = new OkHttpClient();
+
+                    JSONObject obj = new JSONObject();
+                    try {
+                        obj.put("phone", loginname);
+                        obj.put("project",loginname + "完成了一次跑步，用时"+seconds+ "S"+ " 一共跑了 "+ distance +"M" );
+                        obj.put("time",System.currentTimeMillis()+"");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    MediaType type = MediaType.parse("application/json;charset=utf-8");
+                    RequestBody RequestBody2 = RequestBody.create(type, obj.toString());
+
+                    Request request = new Request.Builder()
+                            // 指定访问的服务器地址
+                            .url("http://192.168.2.122:8081/recoder/insert")
+                            .post(RequestBody2)
+                            .build();
+                    Response response = client.newCall(request).execute();
+                    String responseData = response.body().string();
+                    System.out.println(responseData);
+
+
+                    Gson gson = new Gson();
+                    NetRecoderBean netBean = gson.fromJson(responseData, NetRecoderBean.class);
+                    if (netBean.getCode().equals("0")) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ToastUtils.showShort("健康记录保存成功");
+                            }
+                        });
+
+                    } else {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ToastUtils.showShort(netBean.getMsg());
+                            }
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     /**

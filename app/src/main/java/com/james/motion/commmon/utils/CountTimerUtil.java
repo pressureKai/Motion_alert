@@ -7,12 +7,7 @@ import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
 import android.widget.TextView;
 
-/**
- * 描述: 倒计时
- * 作者: james
- * 日期: 2019/2/18 19:34
- * 类名: CountTimerUtil
- */
+
 public class CountTimerUtil {
 
     // 默认计时

@@ -27,7 +27,13 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
+import com.google.gson.Gson;
 import com.james.motion.R;
+import com.james.motion.commmon.bean.NetRecoderBean;
+import com.james.motion.commmon.utils.MySp;
 import com.james.motion.ui.sleep.Receiver.AlarmReceiver;
 import com.james.motion.ui.sleep.Receiver.MyReceiver;
 
@@ -39,6 +45,15 @@ import static java.lang.Math.pow;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class AlarmFragment extends Fragment{
@@ -207,6 +222,7 @@ public class AlarmFragment extends Fragment{
             @Override
             public void onClick(View arg0) {
                 saveData();
+                sendRequestWithOkHttp();
                 timeusedinsec = 0;
                 isstop = true;
                 mSensorManager.unregisterListener(mSensorEventListener);
@@ -217,6 +233,7 @@ public class AlarmFragment extends Fragment{
                 reset.setVisibility(View.GONE);
                 start.setVisibility(View.VISIBLE);
                 word1.setText("您上次睡了");
+
             }
         });
         start.setOnClickListener(new View.OnClickListener() {
@@ -247,6 +264,64 @@ public class AlarmFragment extends Fragment{
                 word1.setText("睡眠开始");
             }
         });
+    }
+
+
+    public void sendRequestWithOkHttp() {
+        String s = hourt.getText() + ":" + mint.getText() + ":" + sec.getText();
+        long newTime = timeusedinsec;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String loginname = SPUtils.getInstance().getString(MySp.PHONE);
+                    OkHttpClient client = new OkHttpClient();
+
+                    JSONObject obj = new JSONObject();
+                    try {
+
+                        obj.put("phone", loginname);
+                        obj.put("project",loginname + "您的睡眠时长为 " +s + " ,评价为 "+suggest);
+                        obj.put("time",System.currentTimeMillis()+"");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    MediaType type = MediaType.parse("application/json;charset=utf-8");
+                    RequestBody RequestBody2 = RequestBody.create(type, obj.toString());
+
+                    Request request = new Request.Builder()
+                            // 指定访问的服务器地址
+                            .url("http://192.168.2.122:8081/recoder/insert")
+                            .post(RequestBody2)
+                            .build();
+                    Response response = client.newCall(request).execute();
+                    String responseData = response.body().string();
+                    System.out.println(responseData);
+
+
+                    Gson gson = new Gson();
+                    NetRecoderBean netBean = gson.fromJson(responseData, NetRecoderBean.class);
+                    if (netBean.getCode().equals("0")) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // ToastUtils.showShort("健康记录保存成功");
+                            }
+                        });
+
+                    } else {
+                        getActivity().  runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ToastUtils.showShort(netBean.getMsg());
+                            }
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     private void updateView() {
@@ -306,13 +381,13 @@ public class AlarmFragment extends Fragment{
     private void saveData() {
         int numberOfPlay =  MyReceiver.getNum2();
         double grade_numberOfPlay = pow(1.01, -numberOfPlay);
-        if (numberOfPlay > 20) suggest += "睡觉玩手机会影响主人的学习哦。";
+        if (numberOfPlay > 20) suggest += "睡觉玩手机会影响您的学习哦。";
 
         double grade_numberOfTouch;
         int numberOfTouch = num1;
         if (numberOfTouch > 2000) {
             grade_numberOfTouch = 0.89;
-            suggest += "主人最近是不是辗转难眠呢~睡眠质量不够高呢~";
+            suggest += "您最近是不是辗转难眠呢~睡眠质量不够高呢~";
         }
         else {
             grade_numberOfTouch = 1;
@@ -340,14 +415,14 @@ public class AlarmFragment extends Fragment{
         double x1 = subOfAlarm/20;
         double grade_subOfAlarm; // = (Math.pow(Math.E, (-3-x1))*Math.pow(x1+3, 3))/1.35;
 
-        if (x1 > 2) {suggest += "主人最近睡眠不深，不知道怎么了？"; grade_subOfAlarm = 0.8;}
-        else if (x1 > -1) {suggest += "主人，您的生物钟很规律哦~希望您继续保持呢~";grade_subOfAlarm = 0.99;}
-        else {suggest += "主人最近有点赖床哦~"; grade_subOfAlarm = 0.9;}
+        if (x1 > 2) {suggest += "您最近睡眠不深，不知道怎么了？"; grade_subOfAlarm = 0.8;}
+        else if (x1 > -1) {suggest += "您，您的生物钟很规律哦~希望您继续保持呢~";grade_subOfAlarm = 0.99;}
+        else {suggest += "您有点赖床哦~"; grade_subOfAlarm = 0.9;}
 
 
-        if (sleepHour > 9.3) {suggest += "主人睡的时间太长了噢~萌萌早就醒了哼~"; grade_sumOfSleep = 0.88;}
-        else if (sleepHour > 6) {suggest += "主人的睡觉时长很健康呐~"; grade_sumOfSleep = 0.96;}
-        else {suggest += "萌萌最近和主人一样，睡眠缺乏~"; grade_sumOfSleep = 0.6;}
+        if (sleepHour > 9.3) {suggest += "睡眠时间太长了噢"; grade_sumOfSleep = 0.88;}
+        else if (sleepHour > 6) {suggest += "您的睡觉时长很健康呐~"; grade_sumOfSleep = 0.96;}
+        else {suggest += "您的睡眠缺乏~"; grade_sumOfSleep = 0.6;}
 
 
         double grade_timeOfSleep;
@@ -356,11 +431,11 @@ public class AlarmFragment extends Fragment{
         }
         else if (timeOfSleep >= 23) {
             grade_timeOfSleep = 0.95;
-            suggest += "另外，主人最近睡得有点迟啊~";
+            suggest += "另外，您最近睡得有点迟啊~";
         }
         else if (timeOfSleep > 0 && timeOfSleep < 2) {
             grade_timeOfSleep = 0.75;
-            suggest += "另外，主人最近睡得有点迟啊~";
+            suggest += "另外，您最近睡得有点迟啊~";
         }
         else if (timeOfSleep > 11 && timeOfSleep < 15) {
             grade_timeOfSleep = 1;
@@ -405,5 +480,8 @@ public class AlarmFragment extends Fragment{
         cv.put("sumOfSleep", sleepHour);
         cv.put("timeOfSleep", timeOfSleep);
         sqLiteDatabase.insert("grade_table", null, cv);
+
+
+
     }
 }

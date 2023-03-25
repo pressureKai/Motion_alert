@@ -6,12 +6,6 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
-/**
- * 描述: 用于记录一条轨迹，包括起点、终点、轨迹中间点、距离、耗时、时间
- * 作者: james
- * 日期: 2019/2/25 19:59
- * 类名: SportMotionRecord
- */
 public class SportMotionRecord extends RealmObject implements Serializable {
 
     /**

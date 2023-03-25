@@ -14,7 +14,7 @@ import java.io.IOException;
 public class CameraPreviewView extends SurfaceView implements SurfaceHolder.Callback {
 
     private SurfaceHolder mSurfaceHolder;
-    private Camera mCamera;
+    Camera mCamera;
     private Camera.PreviewCallback mPreviewCallback;
 
     public CameraPreviewView(Context context) {
@@ -84,6 +84,10 @@ public class CameraPreviewView extends SurfaceView implements SurfaceHolder.Call
         } catch (Exception e){
             Log.e("grandfather", "Error while STOP preview for camera", e);
         }
+    }
+
+    public Camera getmCamera(){
+        return  mCamera;
     }
 
     public void openCamera(){

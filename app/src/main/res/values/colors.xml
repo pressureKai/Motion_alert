@@ -48,7 +48,7 @@
     <color name="gray10">#ffbebebe</color>
     <color name="colorRed">#10ded7</color>
     <color name="sport_bg">#132B5A</color>
-    <color name="center_sport_bg">#132B5A</color>
+    <color name="center_sport_bg">#99132B5A</color>
     <color name="end_sport_bg">#1A132B5A</color>
 
     <color name="btn_green_p">#132B5A</color>

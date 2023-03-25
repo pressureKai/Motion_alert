@@ -16,8 +16,11 @@ import androidx.viewpager.widget.ViewPager;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.flyco.tablayout.SlidingTabLayout;
+import com.google.gson.Gson;
 import com.james.motion.MyApplication;
 import com.james.motion.R;
+import com.james.motion.commmon.bean.NetBean;
+import com.james.motion.commmon.bean.UserAccount;
 import com.james.motion.commmon.utils.Conn;
 import com.james.motion.commmon.utils.MySp;
 import com.james.motion.db.DataManager;
@@ -26,10 +29,19 @@ import com.james.motion.ui.BaseActivity;
 import com.james.motion.ui.fragment.FastLoginFragment;
 import com.james.motion.ui.fragment.PsdLoginFragment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * 包名：com.james.motion.ui.activity
@@ -146,21 +158,67 @@ public class LoginActivity extends BaseActivity {
     public void login(String account, String psd) {
         btLogin.setEnabled(false);
         showLoadingView();
-        new Handler().postDelayed(() -> {
-            dismissLoadingView();
-            btLogin.setEnabled(true);
-            if (isPsd) {
-                if (dataManager.checkAccount(account, psd))
-                    loginSuccess(account, psd);
-                else
-                    ToastUtils.showShort("账号或密码错误!");
-            } else {
-                if (dataManager.checkAccount(account))
-                    loginSuccess(account, "");
-                else
-                    ToastUtils.showShort("账号不存在!");
+
+
+        sendRequestWithOkHttp(account,psd);
+    }
+    public void sendRequestWithOkHttp(String account, String psd) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    OkHttpClient client = new OkHttpClient();
+                    RequestBody requestBody = new FormBody.Builder()
+                            .add("uname",account)
+                            .add("password",psd)
+                            .build();
+                    Request request = new Request.Builder()
+                            // 指定访问的服务器地址
+                            .url("http://192.168.2.122:8081/user/login")
+                            .post(requestBody)
+                            .build();
+                    Response response = client.newCall(request).execute();
+                    String responseData = response.body().string();
+                    System.out.println(responseData);
+
+
+                    Gson gson = new Gson();
+                    NetBean netBean = gson.fromJson(responseData, NetBean.class);
+                    if (netBean.getCode().equals("0")) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                new Handler().postDelayed(() -> {
+                                    dismissLoadingView();
+                                    btLogin.setEnabled(true);
+                                    if (isPsd) {
+                                        if (dataManager.checkAccount(account, psd))
+                                            loginSuccess(account, psd);
+                                        else
+                                            ToastUtils.showShort("账号或密码错误!");
+                                    } else {
+                                        if (dataManager.checkAccount(account))
+                                            loginSuccess(account, "");
+                                        else
+                                            ToastUtils.showShort("账号不存在!");
+                                    }
+                                }, Conn.Delayed);
+                            }
+                        });
+
+                    } else {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ToastUtils.showShort(netBean.getMsg());
+                            }
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        }, Conn.Delayed);
+        }).start();
     }
 
     private void loginSuccess(String account, String psd) {

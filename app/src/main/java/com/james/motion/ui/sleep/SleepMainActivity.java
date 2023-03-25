@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.gyf.immersionbar.ImmersionBar;
 import com.james.motion.R;
 import com.james.motion.ui.sleep.Fragments.AlarmFragment;
 import com.james.motion.ui.sleep.Fragments.ChartFragment;
@@ -35,22 +37,29 @@ public class SleepMainActivity extends AppCompatActivity implements BottomNaviga
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep_main);
 
+
         fm = getFragmentManager();
 
         bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom);
-        bottomNavigationBar.setMode(BottomNavigationBar.MODE_SHIFTING);
-        bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_RIPPLE);
+        ImmersionBar.with(this).titleBar(
+                bottomNavigationBar
+        ).statusBarDarkFont(true, 0.7f).statusBarColor(R.color.white).init();
+
+
 
         /**
          *添加tab标签页
          */
         bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.drawable.sleep_pressed, "睡眠")
-                        .setActiveColorResource(R.color.sleep).setInactiveIconResource(R.drawable.sleep_normal))
-                .addItem(new BottomNavigationItem(R.drawable.analysis_pressed, "睡眠报告")
-                        .setActiveColorResource(R.color.analysis).setInactiveIconResource(R.drawable.analysis_normal))
-                .addItem(new BottomNavigationItem(R.drawable.music_pressed, "催眠曲")
-                        .setActiveColorResource(R.color.music).setInactiveIconResource(R.drawable.music_normal))
+                .addItem(new BottomNavigationItem(R.drawable.icon_color_green, "睡眠")
+                        .setInActiveColor(Color.BLACK)
+                        .setInactiveIconResource(R.drawable.icon_color_white))
+                .addItem(new BottomNavigationItem(R.drawable.icon_color_green, "睡眠报告")
+                        .setInActiveColor(Color.BLACK)
+                        .setInactiveIconResource(R.drawable.icon_color_white))
+                .addItem(new BottomNavigationItem(R.drawable.icon_color_green, "催眠曲")
+                        .setInActiveColor(Color.BLACK)
+                        .setInactiveIconResource(R.drawable.icon_color_white))
                 .initialise();
 
         onTabSelected(0);
@@ -88,14 +97,6 @@ public class SleepMainActivity extends AppCompatActivity implements BottomNaviga
                 list.add(chartFragment);
                 DiaryFragment.tag = true;
                 break;
-//            case 1:
-//                if (diaryFragment != null) {
-//                    diaryFragment = null;
-//                }
-//                diaryFragment = new DiaryFragment();
-//                transaction.add(R.id.layFrame, diaryFragment);
-//                list.add(diaryFragment);
-//                break;
             case 2:
                 if (musicFragment == null) {
                     musicFragment = new MusicFragment();
@@ -120,6 +121,10 @@ public class SleepMainActivity extends AppCompatActivity implements BottomNaviga
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
     @Override
     public void onActivityResult(int resquestCode, int resultCode, Intent data1) {

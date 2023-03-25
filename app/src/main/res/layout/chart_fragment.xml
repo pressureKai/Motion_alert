@@ -9,7 +9,12 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    android:background="@drawable/sleeptips">
+    android:background="@drawable/sport_change_bg">
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,6 +25,7 @@
             android:text="0"
             android:textSize="60sp"
             android:gravity="center"
+            android:textColor="@color/white"
             android:background="@drawable/circlecyan"
             android:layout_alignParentRight="true"
             android:elevation="7dp"
@@ -40,7 +46,7 @@
                 android:text="您的近期睡眠综合评分："
                 android:gravity="center_vertical"
                 android:textSize="18sp"
-                android:textColor="@color/white"
+                android:textColor="@color/text_color_black"
                 android:id="@+id/recentGrade"/>
 
             <TextView
@@ -49,12 +55,17 @@
                 android:padding="3dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="眠眠萌的建议："
+                android:text="睡眠建议："
                 android:textSize="18sp"
-                android:textColor="@color/white"
+                android:textColor="@color/text_color_black"
                 android:id="@+id/suggest"/>
         </LinearLayout>
     </RelativeLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
     <com.james.motion.ui.sleep.SimpleLineChart
         android:id="@+id/simpleLineChart"
@@ -62,7 +73,6 @@
         android:layout_height="200dp"
         android:layout_marginTop="40dp"
         android:elevation="5dp"
-        android:layout_below="@+id/grade"
-        android:background="@drawable/rect"/>
+        android:layout_below="@+id/grade"/>
 
 </LinearLayout>

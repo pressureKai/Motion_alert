@@ -56,10 +56,9 @@ public class CardiogView extends View {
 
     private void init(){
         mPaint = new Paint();
-        PathEffect mPathEffect = new CornerPathEffect(2.0f);
         mPaint.setColor(mColor);
         mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeWidth(5.0f);
+        mPaint.setStrokeWidth(6f);
         mPointPaint = new Paint();
         mPointPaint.setColor(getResources().getColor(R.color.colorAccent));
         mPointPaint.setStyle(Paint.Style.STROKE);
@@ -103,7 +102,7 @@ public class CardiogView extends View {
             x += mDistanceX;
             y = (points.get(i) - mStartY)*mDistanceY;
             path.lineTo(x, y);
-            canvas.drawCircle(x, y, 6.0f, mPointPaint);
+         //   canvas.drawCircle(x, y, 6.0f, mPointPaint);
         }
         canvas.drawPath(path, mPaint);
     }

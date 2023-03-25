@@ -3,62 +3,141 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:gravity="center"
     android:background="@drawable/sport_change_bg"
     android:orientation="vertical">
 
 
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/sport_card"
-        android:layout_width="200dp"
-        app:cardCornerRadius="8dp"
-        android:layout_margin="16dp"
-        android:layout_height="100dp">
+    <LinearLayout
+        android:gravity="center"
+        android:layout_marginTop="60dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
 
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_gravity="center"
-            android:layout_height="80dp"
-            android:src="@drawable/icon_run"/>
-
-    </androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/userName"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
 
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/heart_card"
-        android:layout_width="200dp"
-        app:cardCornerRadius="8dp"
-        android:layout_margin="16dp"
-        android:layout_height="100dp">
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
 
 
         <ImageView
-            android:layout_width="80dp"
-            android:layout_gravity="center"
-            android:layout_height="80dp"
-            android:src="@drawable/icon_heart"/>
+            android:id="@+id/iv_logout"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/icon_new_logout"/>
 
-    </androidx.cardview.widget.CardView>
+    </LinearLayout>
+   <LinearLayout
+        android:layout_marginTop="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/sleep_card"
-        android:layout_width="200dp"
-        app:cardCornerRadius="8dp"
+
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/sport_card"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="8dp"
+            android:layout_margin="16dp"
+            android:layout_height="100dp">
+
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_gravity="center"
+                android:layout_height="80dp"
+                android:src="@drawable/icon_run"/>
+
+        </androidx.cardview.widget.CardView>
+
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/heart_card"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="8dp"
+            android:layout_margin="16dp"
+            android:layout_height="100dp">
+
+
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_gravity="center"
+                android:layout_height="80dp"
+                android:src="@drawable/icon_heart"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/sleep_card"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="8dp"
+            android:layout_margin="16dp"
+            android:layout_height="100dp">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_gravity="center"
+                android:layout_height="80dp"
+                android:src="@drawable/icon_sleep"/>
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+
+
+
+    <TextView
+        android:textColor="@color/text_color_white"
+        android:textStyle="bold"
+        android:textSize="20sp"
         android:layout_margin="16dp"
-        android:layout_height="100dp">
+        android:text="健康记录"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        android:layout_weight="1">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
 
         <ImageView
-            android:layout_width="80dp"
-            android:layout_gravity="center"
-            android:layout_height="80dp"
-            android:src="@drawable/icon_sleep"/>
+            android:id="@+id/iv_empty"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:src="@drawable/icon_no_data"
+            android:layout_width="200dp"
+            android:layout_height="200dp"/>
 
-    </androidx.cardview.widget.CardView>
-
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

@@ -4,12 +4,7 @@ import android.util.Log;
 
 import com.james.motion.MyApplication;
 
-/**
- * 描述: Log管理类
- * 作者: james
- * 日期: 2019/2/25 15:45
- * 类名: LogUtils
- */
+
 public class LogUtils {
 
     private static final String TAG = "LogUtils";

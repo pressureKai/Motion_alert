@@ -62,11 +62,11 @@ public class ChartFragment extends Fragment {
                 SharedPreferences sharedpref = getActivity().getSharedPreferences("info", MODE_PRIVATE);
                 String suggest = sharedpref.getString("suggestion", "");
                 float gra = sharedpref.getFloat("grade", 0);
-                suggestion.setText("眠眠萌的建议：\n"+ suggest);
+                suggestion.setText("建议：\n"+ suggest);
                 long x = Math.round(gra);
                 gradeText.setText(x + "");
             } else {
-                suggestion.setText("眠眠萌的建议：\n体验一下我们的app吧~");
+                suggestion.setText("建议：\n体验一下我们的app吧~");
             }
         } catch (Exception e) {
             Log.i("e", e.toString());

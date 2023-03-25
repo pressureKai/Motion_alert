@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.james.motion.R;
+import com.james.motion.commmon.bean.NetBean;
 import com.james.motion.commmon.bean.UserAccount;
 import com.james.motion.commmon.utils.Conn;
 import com.james.motion.commmon.utils.LogUtils;
@@ -22,8 +24,19 @@ import com.james.motion.db.DataManager;
 import com.james.motion.db.RealmHelper;
 import com.james.motion.ui.BaseActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class RegistActivity extends BaseActivity {
 
@@ -157,21 +170,9 @@ public class RegistActivity extends BaseActivity {
      * 注册
      */
     public void regist() {
-        showLoadingView();
-        new Handler().postDelayed(() -> {
-            dismissLoadingView();
-            btRegist.setEnabled(true);
-            if (dataManager.checkAccount(etAccount.getText().toString())) {
-                ToastUtils.showShort("账号已存在！");
-            } else {
-                ToastUtils.showShort("恭喜您,注册成功...");
-                UserAccount userAccount = new UserAccount();
-                userAccount.setAccount(etAccount.getText().toString());
-                userAccount.setPsd(etPsd.getText().toString());
-                dataManager.insertAccount(userAccount);
-                finish();
-            }
-        }, Conn.Delayed);
+        //   showLoadingView();
+        btRegist.setEnabled(true);
+        sendRequestWithOkHttp();
     }
 
     @Override
@@ -179,5 +180,69 @@ public class RegistActivity extends BaseActivity {
         if (null != dataManager)
             dataManager.closeRealm();
         super.onDestroy();
+    }
+
+    public void sendRequestWithOkHttp() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // List<JSONObject> mList = new ArrayList<>();
+                JSONObject obj = new JSONObject();
+                try {
+                    obj.put("uname", etAccount.getText().toString());
+                    obj.put("password", etPsd.getText().toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                // mList.add(obj);
+                MediaType type = MediaType.parse("application/json;charset=utf-8");
+                RequestBody RequestBody2 = RequestBody.create(type, obj.toString());
+                try {
+                    OkHttpClient client = new OkHttpClient();
+                    Request request = new Request.Builder()
+                            // 指定访问的服务器地址
+                            .url("http://192.168.2.122:8081/user/register").post(RequestBody2)
+                            .build();
+                    Response response = client.newCall(request).execute();
+                    String responseData = response.body().string();
+                    System.out.println(responseData);
+
+
+                    Gson gson = new Gson();
+                    NetBean netBean = gson.fromJson(responseData, NetBean.class);
+                    if (netBean.getCode().equals("0")) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                new Handler().postDelayed(() -> {
+                                    dismissLoadingView();
+
+                                    if (dataManager.checkAccount(etAccount.getText().toString())) {
+                                        ToastUtils.showShort("账号已存在！");
+                                    } else {
+                                        ToastUtils.showShort("恭喜您,注册成功...");
+                                        UserAccount userAccount = new UserAccount();
+                                        userAccount.setAccount(etAccount.getText().toString());
+                                        userAccount.setPsd(etPsd.getText().toString());
+                                        dataManager.insertAccount(userAccount);
+                                        finish();
+                                    }
+                                }, Conn.Delayed);
+                            }
+                        });
+
+                    } else {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ToastUtils.showShort(netBean.getMsg());
+                            }
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 }
