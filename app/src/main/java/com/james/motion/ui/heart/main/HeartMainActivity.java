@@ -119,8 +119,6 @@ public class HeartMainActivity extends BaseActivity {
                         mTv_heartrate.setText("心率:" + heartrate + "次/分  (•̀ᴗ•́)و ̑̑ ");
                     else
                         mTv_heartrate.setText("心率:" + " 手指要放好啊 ( ＿ ＿)ノ｜扶墙");
-//                    System.out.println(buffer);
-//                    System.out.println("SamplingRate:" + samplingRate);
                     count = 0;
                 }
             }

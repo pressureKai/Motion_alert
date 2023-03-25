@@ -2,6 +2,7 @@ package com.james.motion.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -37,6 +38,7 @@ public class SportsActivity extends BaseActivity {
     TextView tvSportCount;
     @BindView(R.id.tv_sport_time)
     TextView tvSportTime;
+
     @BindView(R.id.btStart)
     Button btStart;
 
@@ -55,6 +57,14 @@ public class SportsActivity extends BaseActivity {
     public void initData(Bundle savedInstanceState) {
         dataManager = new DataManager(new RealmHelper());
 
+
+        findViewById(R.id.iv_date).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SportsActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
+        });
         upDateUI();
     }
 

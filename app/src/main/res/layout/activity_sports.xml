@@ -168,13 +168,14 @@
         android:layout_marginTop="@dimen/spacing_normal">
 
         <LinearLayout
-            android:id="@+id/re_back"
+
             android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:onClick="back">
 
             <ImageView
+                android:id="@+id/re_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -191,12 +192,13 @@
 
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/iv_date"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="@dimen/item_edge"
                 android:layout_marginRight="@dimen/item_edge"
-                android:background="@mipmap/icon_back_white" />
+                android:background="@drawable/icon_date" />
         </LinearLayout>
 
     </RelativeLayout>

@@ -51,7 +51,7 @@ public class MainActivity extends BaseActivity {
         findViewById(R.id.sport_card).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                Intent intent = new Intent(MainActivity.this, SportsActivity.class);
                 startActivity(intent);
             }
         });
